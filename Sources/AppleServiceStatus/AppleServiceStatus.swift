@@ -45,7 +45,9 @@ public class AppleServiceStatus: NSObject {
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
-                let root2 = self.serialize(json: JSON(value))
+                let s0: String = rootJSON.rawString() ?? ""
+                let s1: String = s0.replacingOccurrences(of: "\\/", with: "/")
+
 //                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
                 let parsed = rootJSON.stringValue.replacingOccurrences(of: "jsonCallback(", with: "")
                 let parsed2 = parsed.dropLast(2)
@@ -54,11 +56,5 @@ public class AppleServiceStatus: NSObject {
                 callback(nil, error)
             }
         }
-    }
-    
-    func serialize(json: JSON) -> String {
-        let s0: String = json.rawString() ?? ""
-        let s1: String = s0.replacingOccurrences(of: "\\/", with: "/")
-        return s1
-    }
+    }    
 }
