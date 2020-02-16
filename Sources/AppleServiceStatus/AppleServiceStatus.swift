@@ -41,10 +41,11 @@ public class AppleServiceStatus: NSObject {
         case .standard:
             endpointURL = "https://www.apple.com/support/systemstatus/data/system_status_en_US.js"
         }
-        AF.request(endpointURL, method: .get).responseString { response in
+        AF.request(endpointURL, method: .get).responseString { [unowned self] response in
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
+                let root2 = self.serialize(json: rootJSON)
 //                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
                 let parsed = rootJSON.stringValue.replacingOccurrences(of: "jsonCallback(", with: "")
                 let parsed2 = parsed.dropLast(2)
@@ -53,5 +54,11 @@ public class AppleServiceStatus: NSObject {
                 callback(nil, error)
             }
         }
+    }
+    
+    func serialize(json: JSON) -> String {
+        let s0: String = json.rawString() ?? ""
+        let s1: String = s0.replacingOccurrences(of: "\\/", with: "/")
+        return s1
     }
 }
