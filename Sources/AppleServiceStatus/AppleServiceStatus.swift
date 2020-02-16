@@ -45,7 +45,7 @@ public class AppleServiceStatus: NSObject {
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
-                let root2 = self.serialize(json: rootJSON)
+                let root2 = self.serialize(json: JSON(value))
 //                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
                 let parsed = rootJSON.stringValue.replacingOccurrences(of: "jsonCallback(", with: "")
                 let parsed2 = parsed.dropLast(2)
