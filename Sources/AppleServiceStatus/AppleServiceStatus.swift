@@ -32,7 +32,7 @@ public class AppleServiceStatus: NSObject {
 //        fatalError("init() is not support.  Please check documentation.")
     }
     
-    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: [SystemStatus]?, _ error: Error?) -> Void) {
+    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
         var endpointURL: String
         
         switch type {
@@ -45,7 +45,8 @@ public class AppleServiceStatus: NSObject {
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
-                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
+//                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
+                callback(try? SystemStatus(rootJSON.description), nil)
             case .failure(let error):
                 callback(nil, error)
             }
