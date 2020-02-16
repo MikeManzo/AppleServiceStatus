@@ -10,7 +10,7 @@ import Alamofire
 import Foundation
 import SwiftyJSON
 
-enum ServiceType {
+public enum ServiceType {
     case developer
     case standard
 }
@@ -22,7 +22,7 @@ public class AppleServiceStatus: NSObject {
         fatalError("init() is not support.  Please check documentation.")
     }
     
-    init (type: ServiceType) {
+    public init (type: ServiceType) {
         var endpointURL: String
         super.init()
         
