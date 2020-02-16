@@ -15,16 +15,25 @@ public enum ServiceType {
     case standard
 }
 
+public enum ServiceError: Error, CustomStringConvertible {
+    case unknown
+
+    public var description: String {
+        switch self {
+        case .unknown: return "Unknown error retrieving service status"
+        }
+    }
+}
+
 public class AppleServiceStatus: NSObject {
-    var system: [SystemStatus]?
+//    var system: [SystemStatus]?
     
     override init() {
-        fatalError("init() is not support.  Please check documentation.")
+//        fatalError("init() is not support.  Please check documentation.")
     }
     
-    public init (type: ServiceType) {
+    func getStatus(type: ServiceType, _ callback: @escaping (_ status: [SystemStatus]?, _ error: Error?) -> Void) {
         var endpointURL: String
-        super.init()
         
         switch type {
         case .developer:
@@ -32,13 +41,13 @@ public class AppleServiceStatus: NSObject {
         case .standard:
             endpointURL = "https://www.apple.com/support/systemstatus/data/system_status_en_US.js"
         }
-        AF.request(endpointURL, method: .get).validate().responseJSON { [unowned self] response in
+        AF.request(endpointURL, method: .get).validate().responseJSON { response in
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
-                self.system = rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }
+                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
             case .failure(let error):
-                print(error)
+                callback(nil, error)
             }
         }
     }
