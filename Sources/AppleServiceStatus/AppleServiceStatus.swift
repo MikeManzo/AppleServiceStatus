@@ -41,7 +41,7 @@ public class AppleServiceStatus: NSObject {
         case .standard:
             endpointURL = "https://www.apple.com/support/systemstatus/data/system_status_en_US.js"
         }
-        AF.request(endpointURL, method: .get).responseString { response in
+        AF.request(endpointURL, method: .get).responseData { response in
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
