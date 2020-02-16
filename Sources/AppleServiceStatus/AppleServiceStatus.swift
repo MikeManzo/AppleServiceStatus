@@ -15,7 +15,7 @@ enum ServiceType {
     case standard
 }
 
-class AppleServiceStatus: NSObject {
+public class AppleServiceStatus: NSObject {
     var system: [SystemStatus]?
     
     override init() {
