@@ -32,7 +32,7 @@ public class AppleServiceStatus: NSObject {
 //        fatalError("init() is not support.  Please check documentation.")
     }
     
-    func getStatus(type: ServiceType, _ callback: @escaping (_ status: [SystemStatus]?, _ error: Error?) -> Void) {
+    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: [SystemStatus]?, _ error: Error?) -> Void) {
         var endpointURL: String
         
         switch type {

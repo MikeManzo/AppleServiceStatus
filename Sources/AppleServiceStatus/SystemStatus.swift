@@ -10,7 +10,7 @@
 import Foundation
 
 // MARK: - SystemStatus
-class SystemStatus: Codable {
+public class SystemStatus: Codable {
     let drpost: Bool?
     let drMessage: JSONNull?
     let services: [Service]?
