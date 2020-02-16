@@ -32,7 +32,7 @@ public class AppleServiceStatus: NSObject {
 //        fatalError("init() is not support.  Please check documentation.")
     }
     
-    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
+/*    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
         var endpointURL: String
         
         switch type {
@@ -41,13 +41,10 @@ public class AppleServiceStatus: NSObject {
         case .standard:
             endpointURL = "https://www.apple.com/support/systemstatus/data/system_status_en_US.js"
         }
-        AF.request(endpointURL, method: .get).responseString { [unowned self] response in
+        AF.request(endpointURL, method: .get).responseString { response in
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
-                let s0: String = rootJSON.rawString() ?? ""
-                let s1: String = s0.replacingOccurrences(of: "\\/", with: "/")
-
 //                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
                 let parsed = rootJSON.stringValue.replacingOccurrences(of: "jsonCallback(", with: "")
                 let parsed2 = parsed.dropLast(2)
@@ -56,5 +53,42 @@ public class AppleServiceStatus: NSObject {
                 callback(nil, error)
             }
         }
-    }    
+    }
+*/
+    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
+        var endpointURL: URL
+        
+        switch type {
+        case .developer:
+            endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/developer/system_status_en_US.js")!
+        case .standard:
+            endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/system_status_en_US.js")!
+        }
+        URLSession.shared.dataTask(with: endpointURL) { result in
+            switch result {
+            case .success(let response, let data):
+//                callback(try? SystemStatus(String(parsed2)), nil)
+                _ = 0
+            case .failure(let error):
+                callback(nil, error)
+            }
+        }
+    }
+}
+
+extension URLSession {
+    func dataTask(with url: URL, result: @escaping (Result<(URLResponse, Data), Error>) -> Void) -> URLSessionDataTask {
+        return dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                result(.failure(error))
+                return
+            }
+            guard let response = response, let data = data else {
+                let error = NSError(domain: "error", code: 0, userInfo: nil)
+                result(.failure(error))
+                return
+            }
+            result(.success((response, data)))
+        }
+    }
 }
