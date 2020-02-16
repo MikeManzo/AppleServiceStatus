@@ -41,15 +41,14 @@ public class AppleServiceStatus: NSObject {
         case .standard:
             endpointURL = "https://www.apple.com/support/systemstatus/data/system_status_en_US.js"
         }
-        AF.request(endpointURL, method: .get).response { response in
+        AF.request(endpointURL, method: .get).responseString { response in
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
-                let str = String(data: value!, encoding: .utf8)
 //                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
-//                var parsed = rootJSON.description.replacingOccurrences(of: "jsonCallback(", with: "")
-//                let parsed2 = parsed. description.removeLast(2)
-                callback(try? SystemStatus(rootJSON.stringValue), nil)
+                let parsed = rootJSON.stringValue.replacingOccurrences(of: "jsonCallback(", with: "")
+                let parsed2 = parsed.dropLast(2)
+                callback(try? SystemStatus(String(parsed2)), nil)
             case .failure(let error):
                 callback(nil, error)
             }
