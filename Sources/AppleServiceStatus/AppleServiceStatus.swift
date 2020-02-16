@@ -46,7 +46,8 @@ public class AppleServiceStatus: NSObject {
             case .success(let value):
                 let rootJSON = JSON(value)
 //                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
-                callback(try? SystemStatus(rootJSON.description), nil)
+                let parsed = rootJSON.description.replacingOccurrences(of: "jsonCallback(", with: "")
+                callback(try? SystemStatus(parsed), nil)
             case .failure(let error):
                 callback(nil, error)
             }
