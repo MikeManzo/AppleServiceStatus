@@ -28,7 +28,7 @@ public enum ServiceError: Error, CustomStringConvertible {
 public class AppleServiceStatus: NSObject {
 //    var system: [SystemStatus]?
     
-    override init() {
+    override public init() {
 //        fatalError("init() is not support.  Please check documentation.")
     }
     
