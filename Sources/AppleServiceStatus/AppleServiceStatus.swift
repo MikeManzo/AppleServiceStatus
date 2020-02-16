@@ -32,16 +32,20 @@ public class AppleServiceStatus: NSObject {
 //        fatalError("init() is not support.  Please check documentation.")
     }
     
-/*    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
-        var endpointURL: String
+    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
+        var endpointURL: URL
         
         switch type {
         case .developer:
-            endpointURL = "https://www.apple.com/support/systemstatus/data/developer/system_status_en_US.js"
+            endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/developer/system_status_en_US.js")!
         case .standard:
-            endpointURL = "https://www.apple.com/support/systemstatus/data/system_status_en_US.js"
+            endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/system_status_en_US.js")!
         }
-        AF.request(endpointURL, method: .get).responseString { response in
+        URLSession.shared.dataTask(with: endpointURL) { data, response, error in
+            _ = 0
+        }.resume()
+        
+/*        AF.request(endpointURL, method: .get).responseString { response in
             switch response.result {
             case .success(let value):
                 let rootJSON = JSON(value)
@@ -53,42 +57,7 @@ public class AppleServiceStatus: NSObject {
                 callback(nil, error)
             }
         }
-    }
 */
-    public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
-        var endpointURL: URL
-        
-        switch type {
-        case .developer:
-            endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/developer/system_status_en_US.js")!
-        case .standard:
-            endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/system_status_en_US.js")!
-        }
-        URLSession.shared.dataTask(with: endpointURL) { result in
-            switch result {
-            case .success(let response, let data):
-//                callback(try? SystemStatus(String(parsed2)), nil)
-                _ = 0
-            case .failure(let error):
-                callback(nil, error)
-            }
-        }
     }
-}
 
-extension URLSession {
-    func dataTask(with url: URL, result: @escaping (Result<(URLResponse, Data), Error>) -> Void) -> URLSessionDataTask {
-        return dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                result(.failure(error))
-                return
-            }
-            guard let response = response, let data = data else {
-                let error = NSError(domain: "error", code: 0, userInfo: nil)
-                result(.failure(error))
-                return
-            }
-            result(.success((response, data)))
-        }
-    }
 }
