@@ -24,7 +24,7 @@ public class SystemStatus: Codable {
 
 // MARK: SystemStatus convenience initializers and mutators
 
-extension SystemStatus {
+public extension SystemStatus {
     convenience init(data: Data) throws {
         let me = try newJSONDecoder().decode(SystemStatus.self, from: data)
         self.init(drpost: me.drpost, drMessage: me.drMessage, services: me.services)
@@ -41,7 +41,7 @@ extension SystemStatus {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func with(
+    internal func with(
         drpost: Bool?? = nil,
         drMessage: JSONNull?? = nil,
         services: [Service]?? = nil
