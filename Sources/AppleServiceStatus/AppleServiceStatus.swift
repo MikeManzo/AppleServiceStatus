@@ -41,23 +41,20 @@ public class AppleServiceStatus: NSObject {
         case .standard:
             endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/system_status_en_US.js")!
         }
-        URLSession.shared.dataTask(with: endpointURL) { data, response, error in
-            print(String(data: data!, encoding: .utf8) as Any)
-        }.resume()
         
-/*        AF.request(endpointURL, method: .get).responseString { response in
+        AF.request(endpointURL, method: .get).responseData { response in
             switch response.result {
             case .success(let value):
-                let rootJSON = JSON(value)
-//                callback(rootJSON.arrayValue.compactMap { try? SystemStatus($0.description) }, nil)
-                let parsed = rootJSON.stringValue.replacingOccurrences(of: "jsonCallback(", with: "")
-                let parsed2 = parsed.dropLast(2)
-                callback(try? SystemStatus(String(parsed2)), nil)
+                let str0 = String(data: value, encoding: .utf8)
+                let str1 = str0?.replacingOccurrences(of: "\"", with: "")
+                let str2 = str1?.replacingOccurrences(of: "jsonCallback(", with: "")
+                let str3 = str2?.dropLast(2)
+                let rootJSON = JSON(String(str3!))
+                callback(try? SystemStatus(rootJSON.stringValue), nil)
             case .failure(let error):
                 callback(nil, error)
             }
         }
-*/
     }
 
 }
