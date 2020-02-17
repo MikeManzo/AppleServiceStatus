@@ -23,7 +23,7 @@ Dirt-simple usage:
 
 ```
  let service = AppleServiceStatus()
- test.getStatus(type: .developer, { status, error in
+ service.getStatus(type: .developer, { status, error in
     guard let goodStatus = status else {
         print("Error! \(error?.localizedDescription ?? "")")
         return
