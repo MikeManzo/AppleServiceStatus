@@ -17,10 +17,12 @@ public enum ServiceType {
 
 public enum ServiceError: Error, CustomStringConvertible {
     case unknown
+    case badSerialization
 
     public var description: String {
         switch self {
         case .unknown: return "Unknown error retrieving service status"
+        case .badSerialization: return "Unable to serialize JSON from response"
         }
     }
 }
@@ -48,7 +50,7 @@ public class AppleServiceStatus: NSObject {
                 let str0 = String(data: value, encoding: .utf8)
                 let str1 = str0?.replacingOccurrences(of: "\"", with: "")
                 let str2 = str1?.replacingOccurrences(of: "jsonCallback(", with: "")
-                let str3 = str2?.dropLast(2)
+                let str3 = str2?.replacingOccurrences(of: ");", with: "")
 //                let rootJSON = JSON(String(str3!))
 /*                guard let status = try? SystemStatus(rootJSON.stringValue) else {
                     callback(nil, ServiceError.unknown)
@@ -64,6 +66,8 @@ public class AppleServiceStatus: NSObject {
                     } catch {
                         callback (nil, error)
                     }
+                } else {
+                    callback(nil, ServiceError.badSerialization)
                 }
             case .failure(let error):
                 callback(nil, error)
