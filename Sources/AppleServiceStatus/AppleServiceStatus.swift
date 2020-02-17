@@ -28,10 +28,9 @@ public enum ServiceError: Error, CustomStringConvertible {
 }
 
 public class AppleServiceStatus: NSObject {
-//    var system: [SystemStatus]?
     
     override public init() {
-//        fatalError("init() is not support.  Please check documentation.")
+
     }
     
     public func getStatus(type: ServiceType, _ callback: @escaping (_ status: SystemStatus?, _ error: Error?) -> Void) {
@@ -51,18 +50,11 @@ public class AppleServiceStatus: NSObject {
                 let str1 = str0?.replacingOccurrences(of: "\\", with: "")
                 let str2 = str1?.replacingOccurrences(of: "jsonCallback(", with: "")
                 let str3 = str2?.replacingOccurrences(of: ");", with: "")
-//                let rootJSON = JSON(String(str3!))
-/*                guard let status = try? SystemStatus(rootJSON.stringValue) else {
-                    callback(nil, ServiceError.unknown)
-                    return
-                }
-                callback(status, nil)
-                 */
+                
                 if let response  = try? JSONSerialization.jsonObject(with: str3!.data(using: .utf8)!, options: .mutableLeaves) {
                     do {
                         let rootJSON = JSON(response)
-                        let status = try SystemStatus(rootJSON.stringValue)
-                        callback(status, nil)
+                        callback(try SystemStatus(rootJSON.stringValue), nil)
                     } catch {
                         callback (nil, error)
                     }
@@ -74,5 +66,4 @@ public class AppleServiceStatus: NSObject {
             }
         }
     }
-
 }
