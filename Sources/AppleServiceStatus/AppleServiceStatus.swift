@@ -61,7 +61,7 @@ public class AppleServiceStatus: NSObject {
                 if let response  = try? JSONSerialization.jsonObject(with: str3!.data(using: .utf8)!, options: .mutableLeaves) {
                     do {
                         let rootJSON = JSON(response)
-                        let status = try SystemStatus(response as! String)//rootJSON.stringValue)
+                        let status = try SystemStatus(rootJSON.stringValue)
                         callback(status, nil)
                     } catch {
                         callback (nil, error)
