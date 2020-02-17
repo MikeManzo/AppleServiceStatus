@@ -75,7 +75,7 @@ For [Swift Package Manager](https://swift.org/package-manager/) add the followin
 
 ## ToDo
 
-- [ ] Add support for localizaion
+- [ ] Add support for localization
 - [ ] Add support for past events and only pushing updates to those
 
 #### Credits
