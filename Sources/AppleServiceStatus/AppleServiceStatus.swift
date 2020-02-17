@@ -42,7 +42,7 @@ public class AppleServiceStatus: NSObject {
             endpointURL = URL(string: "https://www.apple.com/support/systemstatus/data/system_status_en_US.js")!
         }
         URLSession.shared.dataTask(with: endpointURL) { data, response, error in
-            print(data as Any)
+            print(String(data: data!, encoding: .utf8) as Any)
         }.resume()
         
 /*        AF.request(endpointURL, method: .get).responseString { response in
