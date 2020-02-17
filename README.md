@@ -6,7 +6,7 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/MikeManzo/AppleServiceStatus/total.svg)
 ![Swift](https://img.shields.io/badge/%20in-swift%205.1-orange.svg)
 
-Retrieve Apple Service Status notifications in a simple and compact form.  For exmple:
+Retrieve Apple Service Status notifications in a simple and compact form.  For example:
 
 - [English - Developer Services](https://www.apple.com/support/systemstatus/data/developer/system_status_en_US.js)
 - [English - System Services](https://www.apple.com/support/systemstatus/data/system_status_en_US.js)
