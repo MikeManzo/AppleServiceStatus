@@ -50,11 +50,18 @@ public class AppleServiceStatus: NSObject {
                 let str2 = str1?.replacingOccurrences(of: "jsonCallback(", with: "")
                 let str3 = str2?.dropLast(2)
                 let rootJSON = JSON(String(str3!))
-                guard let status = try? SystemStatus(rootJSON.stringValue) else {
+/*                guard let status = try? SystemStatus(rootJSON.stringValue) else {
                     callback(nil, ServiceError.unknown)
                     return
                 }
                 callback(status, nil)
+                 */
+                do {
+                    let status = try SystemStatus(rootJSON.stringValue)
+                    callback(status, nil)
+                } catch {
+                    callback (nil, error)
+                }
             case .failure(let error):
                 callback(nil, error)
             }
