@@ -48,7 +48,7 @@ public class AppleServiceStatus: NSObject {
             switch response.result {
             case .success(let value):
                 let str0 = String(data: value, encoding: .utf8)
-                let str1 = str0?.replacingOccurrences(of: "\"", with: "")
+                let str1 = str0?.replacingOccurrences(of: "\\", with: "")
                 let str2 = str1?.replacingOccurrences(of: "jsonCallback(", with: "")
                 let str3 = str2?.replacingOccurrences(of: ");", with: "")
 //                let rootJSON = JSON(String(str3!))
