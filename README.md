@@ -8,8 +8,8 @@
 
 Retrieve Apple Service Status notifications in a simple and compact form.  For example:
 
-- [English - Developer Services](https://www.apple.com/support/systemstatus/data/developer/system_status_en_US.js)
-- [English - System Services](https://www.apple.com/support/systemstatus/data/system_status_en_US.js)
+- [English - Developer Services](https://developer.apple.com/system-status/)
+- [English - System Services](https://www.apple.com/support/systemstatus/)
 
 Allows you to programitcally interrogate the Apple Services Websites and find out:
   - Which services are up
