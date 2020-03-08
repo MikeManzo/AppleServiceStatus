@@ -68,7 +68,6 @@ public class AppleServiceStatus: NSObject {
                     do {
                         let rootJSON = JSON(jsonResponse)
                         callback(try SystemStatus(data: rootJSON.rawData()), nil)   // If we made it here ... we're likely going to be successful
-                        //                        callback(try SystemStatus(String(rootJSON.description.filter { !" \n\t\r".contains($0) })), nil)   // If we made it here ... we're likely going to be successful
                     }
                     catch let DecodingError.dataCorrupted(context) {
                         print(context)
@@ -86,12 +85,8 @@ public class AppleServiceStatus: NSObject {
                         print("codingPath:", context.codingPath)
                         callback (nil, DecodingError.typeMismatch(type, context))
                     } catch {
-                        print("Error: ", error)
+                        print("General Error: ", error)
                     }
-/*                   catch { // Unsuccessful in crearting our SystemStatus object; let the user know why
-                        callback (nil, error)
-                     }
-*/
                 } else { // Unsuccessful in serializing the JSON Response; let the user know why
                     callback(nil, ServiceError.badSerialization)
                 }
