@@ -10,10 +10,10 @@
 import Foundation
 
 // MARK: - Service
-class Service: Codable {
-    let serviceName: String?
-    let redirectURL: String?
-    let events: [Event]?
+public class Service: Codable {
+    public let serviceName: String?
+    public let redirectURL: String?
+    public let events: [Event]?
 
     enum CodingKeys: String, CodingKey {
         case serviceName

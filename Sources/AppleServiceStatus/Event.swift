@@ -10,13 +10,13 @@
 import Foundation
 
 // MARK: - Event
-class Event: Codable {
-    let usersAffected: String?
-    let epochStartDate, epochEndDate: Int?
-    let messageID, statusType, datePosted, startDate: String?
-    let endDate: String?
-    let affectedServices: [String]?
-    let eventStatus, message: String?
+public class Event: Codable {
+    public let usersAffected: String?
+    public let epochStartDate, epochEndDate: Int?
+    public let messageID, statusType, datePosted, startDate: String?
+    public let endDate: String?
+    public let affectedServices: [String]?
+    public let eventStatus, message: String?
 
     enum CodingKeys: String, CodingKey {
         case usersAffected, epochStartDate, epochEndDate

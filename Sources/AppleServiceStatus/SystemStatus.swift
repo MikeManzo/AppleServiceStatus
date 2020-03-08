@@ -11,9 +11,9 @@ import Foundation
 
 // MARK: - SystemStatus
 public class SystemStatus: Codable {
-    let drpost: Bool?
     let drMessage: JSONNull?
-    let services: [Service]?
+    public let drpost: Bool?
+    public let services: [Service]?
 
     init(drpost: Bool?, drMessage: JSONNull?, services: [Service]?) {
         self.drpost = drpost
