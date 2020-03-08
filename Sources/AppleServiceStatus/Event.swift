@@ -11,29 +11,30 @@ import Foundation
 
 // MARK: - Event
 class Event: Codable {
-    let startDate, endDate: String?
-    let affectedServices: JSONNull?
-    let eventStatus, usersAffected: String?
+    let usersAffected: String?
     let epochStartDate, epochEndDate: Int?
-    let messageID, statusType, datePosted, message: String?
+    let messageID, statusType, datePosted, startDate: String?
+    let endDate: String?
+    let affectedServices: [String]?
+    let eventStatus, message: String?
 
     enum CodingKeys: String, CodingKey {
-        case startDate, endDate, affectedServices, eventStatus, usersAffected, epochStartDate, epochEndDate
+        case usersAffected, epochStartDate, epochEndDate
         case messageID = "messageId"
-        case statusType, datePosted, message
+        case statusType, datePosted, startDate, endDate, affectedServices, eventStatus, message
     }
 
-    init(startDate: String?, endDate: String?, affectedServices: JSONNull?, eventStatus: String?, usersAffected: String?, epochStartDate: Int?, epochEndDate: Int?, messageID: String?, statusType: String?, datePosted: String?, message: String?) {
-        self.startDate = startDate
-        self.endDate = endDate
-        self.affectedServices = affectedServices
-        self.eventStatus = eventStatus
+    init(usersAffected: String?, epochStartDate: Int?, epochEndDate: Int?, messageID: String?, statusType: String?, datePosted: String?, startDate: String?, endDate: String?, affectedServices: [String]?, eventStatus: String?, message: String?) {
         self.usersAffected = usersAffected
         self.epochStartDate = epochStartDate
         self.epochEndDate = epochEndDate
         self.messageID = messageID
         self.statusType = statusType
         self.datePosted = datePosted
+        self.startDate = startDate
+        self.endDate = endDate
+        self.affectedServices = affectedServices
+        self.eventStatus = eventStatus
         self.message = message
     }
 }
@@ -43,7 +44,7 @@ class Event: Codable {
 extension Event {
     convenience init(data: Data) throws {
         let me = try newJSONDecoder().decode(Event.self, from: data)
-        self.init(startDate: me.startDate, endDate: me.endDate, affectedServices: me.affectedServices, eventStatus: me.eventStatus, usersAffected: me.usersAffected, epochStartDate: me.epochStartDate, epochEndDate: me.epochEndDate, messageID: me.messageID, statusType: me.statusType, datePosted: me.datePosted, message: me.message)
+        self.init(usersAffected: me.usersAffected, epochStartDate: me.epochStartDate, epochEndDate: me.epochEndDate, messageID: me.messageID, statusType: me.statusType, datePosted: me.datePosted, startDate: me.startDate, endDate: me.endDate, affectedServices: me.affectedServices, eventStatus: me.eventStatus, message: me.message)
     }
 
     convenience init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -58,29 +59,29 @@ extension Event {
     }
 
     func with(
-        startDate: String?? = nil,
-        endDate: String?? = nil,
-        affectedServices: JSONNull?? = nil,
-        eventStatus: String?? = nil,
         usersAffected: String?? = nil,
         epochStartDate: Int?? = nil,
         epochEndDate: Int?? = nil,
         messageID: String?? = nil,
         statusType: String?? = nil,
         datePosted: String?? = nil,
+        startDate: String?? = nil,
+        endDate: String?? = nil,
+        affectedServices: [String]?? = nil,
+        eventStatus: String?? = nil,
         message: String?? = nil
     ) -> Event {
         return Event(
-            startDate: startDate ?? self.startDate,
-            endDate: endDate ?? self.endDate,
-            affectedServices: affectedServices ?? self.affectedServices,
-            eventStatus: eventStatus ?? self.eventStatus,
             usersAffected: usersAffected ?? self.usersAffected,
             epochStartDate: epochStartDate ?? self.epochStartDate,
             epochEndDate: epochEndDate ?? self.epochEndDate,
             messageID: messageID ?? self.messageID,
             statusType: statusType ?? self.statusType,
             datePosted: datePosted ?? self.datePosted,
+            startDate: startDate ?? self.startDate,
+            endDate: endDate ?? self.endDate,
+            affectedServices: affectedServices ?? self.affectedServices,
+            eventStatus: eventStatus ?? self.eventStatus,
             message: message ?? self.message
         )
     }
