@@ -61,3 +61,10 @@ public extension SystemStatus {
         return String(data: try self.jsonData(), encoding: encoding)
     }
 }
+
+extension SystemStatus: Sequence {
+    public typealias Element = Service
+    public func makeIterator() -> AnyIterator<Element> {
+        return AnyIterator(services!.makeIterator())
+    }
+}
