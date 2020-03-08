@@ -67,7 +67,8 @@ public class AppleServiceStatus: NSObject {
                 if let jsonResponse  = try? JSONSerialization.jsonObject(with: str3!.data(using: .utf8)!, options: .mutableLeaves) {
                     do {
                         let rootJSON = JSON(jsonResponse)
-                        callback(try SystemStatus(data: rootJSON.rawData()), nil)   // If we made it here ... we're likely going to be successful
+//                        callback(try SystemStatus(data: rootJSON.rawData()), nil)   // If we made it here ... we're likely going to be successful
+                        callback(try SystemStatus(String(rootJSON.description.filter { !" \n\t\r".contains($0) })), nil)   // If we made it here ... we're likely going to be successful
                     } catch { // Unsuccessful in crearting our SystemStatus object; let the user know why
                         callback (nil, error)
                     }
