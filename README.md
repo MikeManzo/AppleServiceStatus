@@ -93,8 +93,7 @@ For [Swift Package Manager](https://swift.org/package-manager/) add the followin
 
 ## ToDo
 
-- [ ] Add support for localization
-- [ ] Add support for past events and only pushing updates to those
+- [ ] Add support for localization (Once Package Manager Supports This)
 
 #### Credits
 I have always wanted an easy way to programatcally determine the status of Apple's services.  While, I admit - clicking a webpage is dirt simple - offering the [swift](https://swift.org) community a way to do it programitcally seemed like a fun little project.  To help, I took inspiration from [macadmins](https://github.com/macadmins) and their python module [apple-status-api](https://github.com/macadmins/apple-status-api).
