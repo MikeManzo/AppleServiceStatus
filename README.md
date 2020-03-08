@@ -22,14 +22,15 @@ Allows you to programitcally interrogate the Apple Services Websites and find ou
 Dirt-simple usage:
 
 ```
- let service = AppleServiceStatus()
- service.getStatus(type: .developer, { status, error in
-    guard let goodStatus = status else {
-        print("Error! \(error?.localizedDescription ?? "")")
-        return
-    }
-    print(goodStatus)
-})
+  let test = AppleServiceStatus()
+  test.getStatus(type: .developer, { /*[unowned self]*/ status, error in
+     guard let goodStatus = status else {
+         print("Error! \(error?.localizedDescription ?? "")")
+         return
+     }
+     print("DRPost: \(goodStatus.drpost ?? false)")
+     print("Number of Reporting Services: \(goodStatus.services?.count ?? -1)")
+ })
 ```
 
 ## Features
