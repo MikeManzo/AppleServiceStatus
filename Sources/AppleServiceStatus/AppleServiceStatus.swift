@@ -67,11 +67,31 @@ public class AppleServiceStatus: NSObject {
                 if let jsonResponse  = try? JSONSerialization.jsonObject(with: str3!.data(using: .utf8)!, options: .mutableLeaves) {
                     do {
                         let rootJSON = JSON(jsonResponse)
-//                        callback(try SystemStatus(data: rootJSON.rawData()), nil)   // If we made it here ... we're likely going to be successful
-                        callback(try SystemStatus(String(rootJSON.description.filter { !" \n\t\r".contains($0) })), nil)   // If we made it here ... we're likely going to be successful
-                    } catch { // Unsuccessful in crearting our SystemStatus object; let the user know why
-                        callback (nil, error)
+                        callback(try SystemStatus(data: rootJSON.rawData()), nil)   // If we made it here ... we're likely going to be successful
+                        //                        callback(try SystemStatus(String(rootJSON.description.filter { !" \n\t\r".contains($0) })), nil)   // If we made it here ... we're likely going to be successful
                     }
+                    catch let DecodingError.dataCorrupted(context) {
+                        print(context)
+                        callback (nil, DecodingError.dataCorrupted(context))
+                    } catch let DecodingError.keyNotFound(key, context) {
+                        print("Key '\(key)' not found:", context.debugDescription)
+                        print("codingPath:", context.codingPath)
+                        callback (nil, DecodingError.keyNotFound(key, context))
+                    } catch let DecodingError.valueNotFound(value, context) {
+                        print("Value '\(value)' not found:", context.debugDescription)
+                        print("codingPath:", context.codingPath)
+                        callback (nil, DecodingError.valueNotFound(value, context))
+                    } catch let DecodingError.typeMismatch(type, context)  {
+                        print("Type '\(type)' mismatch:", context.debugDescription)
+                        print("codingPath:", context.codingPath)
+                        callback (nil, DecodingError.typeMismatch(type, context))
+                    } catch {
+                        print("Error: ", error)
+                    }
+/*                   catch { // Unsuccessful in crearting our SystemStatus object; let the user know why
+                        callback (nil, error)
+                     }
+*/
                 } else { // Unsuccessful in serializing the JSON Response; let the user know why
                     callback(nil, ServiceError.badSerialization)
                 }
