@@ -13,7 +13,13 @@ import Foundation
 func newJSONDecoder() -> JSONDecoder {
     let decoder = JSONDecoder()
     if #available(iOS 10.0, OSX 10.12, tvOS 10.0, watchOS 3.0, *) {
-        decoder.dateDecodingStrategy = .iso8601
+        // We need to parse the date returned.  For exampl: --> "datePosted": "03/07/2020 01:00 PST"
+        let customFormat = DateFormatter()
+        customFormat.dateFormat = "MM/dd/yyyy HH:mm zzz"
+        customFormat.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+
+//        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .formatted(customFormat)
     }
     return decoder
 }
