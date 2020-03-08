@@ -17,9 +17,8 @@ func newJSONDecoder() -> JSONDecoder {
         let customFormat = DateFormatter()
         customFormat.dateFormat = "MM/dd/yyyy HH:mm zzz"
         customFormat.timeZone = NSTimeZone(name: "UTC") as TimeZone?
-
-//        decoder.dateDecodingStrategy = .iso8601
         decoder.dateDecodingStrategy = .formatted(customFormat)
+//        decoder.dateDecodingStrategy = .iso8601
     }
     return decoder
 }
