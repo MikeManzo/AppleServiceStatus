@@ -20,35 +20,35 @@ Allows you to programitcally interrogate the Apple Services Websites and find ou
 ## Usage
 
 Sample usage:
-```
+```swift
 
-     let test = AppleServiceStatus()
-     test.getStatus(type: .developer, { status, error in
-     guard let goodStatus = status else {
-          print("Error! \(error?.localizedDescription ?? "")")
-          return
-     }
-     print("DRPost: \(goodStatus.drpost ?? false)")
-     print("Number of Reporting Services: \(goodStatus.services?.count ?? -1)")
-     guard let services = goodStatus.services else { return }
-     for service in services {
-         print("Service Name: \(service.serviceName ?? "")")
-         print("Service URL: \(service.redirectURL ?? "")")
-         guard let events = service.events else { return }
-         for event in events {
-             print("\t\tMessage: \(event.message ?? "")")
-             print("\t\tStatus: \(event.eventStatus ?? "")")
-             print("\t\tType: \(event.statusType ?? "")")
-             print("\t\tDate Posted: \(event.datePosted ?? "")")
-             print("\t\tDate Ended: \(event.endDate ?? "")")
-             print("\t\tUsers Affected: \(event.usersAffected ?? "")")
-             guard let affectedServices =  event.affectedServices else { return }
-             for affectedService in affectedServices {
-                 print("\t\t\tUser: \(affectedService.description)")
-             }
-         }
-     }
-     })
+let test = AppleServiceStatus()
+test.getStatus(type: .developer, { status, error in
+guard let goodStatus = status else {
+     print("Error! \(error?.localizedDescription ?? "")")
+     return
+}
+print("DRPost: \(goodStatus.drpost ?? false)")
+print("Number of Reporting Services: \(goodStatus.services?.count ?? -1)")
+guard let services = goodStatus.services else { return }
+for service in services {
+    print("Service Name: \(service.serviceName ?? "")")
+    print("Service URL: \(service.redirectURL ?? "")")
+    guard let events = service.events else { return }
+    for event in events {
+        print("\t\tMessage: \(event.message ?? "")")
+        print("\t\tStatus: \(event.eventStatus ?? "")")
+        print("\t\tType: \(event.statusType ?? "")")
+        print("\t\tDate Posted: \(event.datePosted ?? "")")
+        print("\t\tDate Ended: \(event.endDate ?? "")")
+        print("\t\tUsers Affected: \(event.usersAffected ?? "")")
+        guard let affectedServices =  event.affectedServices else { return }
+        for affectedService in affectedServices {
+            print("\t\t\tUser: \(affectedService.description)")
+        }
+    }
+}
+})
 ```
 
 ## Features
